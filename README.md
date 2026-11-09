@@ -19,10 +19,37 @@ From the terminal, you can build and run the UI test with:
 
 1. Open [Firebase Console](https://console.firebase.google.com/) and create a project **with Google Analytics enabled**.
 2. Add an **Android app** using the exact application ID **`com.example.telemetrypractice`** (also in `app/build.gradle.kts`).
-3. Download **`google-services.json`** into **`app/google-services.json`**. Sync Gradle and run the app again; the status message should say **Firebase Analytics connected**.
+3. Download **`google-services.json`** into **`app/google-services.json`**. Sync Gradle and run the app again; the status message should say **Firebase SDK configured**. This confirms local initialization; use DebugView to verify event delivery.
 4. Never commit `google-services.json`. This repository ignores the file. Each student/group connects their own Firebase project.
 
 The Google Services Gradle plugin is applied automatically when the file is present. The project includes the Firebase Analytics SDK and Firebase BoM. In `MainActivity.kt`, inspect the `record(buttonId)` helper and both button click listeners. The event name is `button_tap`; the parameter is `button_id` (`count` or `reset`). For practice, try changing one button ID and confirm it appears in DebugView.
+
+### Optional: Use Firebase CLI instead of downloading the config in the browser
+
+**Prepare:** Node.js/npm, a Google account with access to a Firebase project, **Google Analytics enabled** in that project, and an Android app registered with the exact package name `com.example.telemetrypractice`. The Firebase project is created most easily in the [Firebase Console](https://console.firebase.google.com/). Its **Project ID** differs from the **Firebase App ID** shown by `firebase apps:list`. Replace the placeholders below with your own values.
+
+From the **root of this starter repository**, run:
+
+```bash
+npm install -g firebase-tools
+firebase login
+firebase projects:list
+firebase apps:list ANDROID --project PROJECT_ID
+firebase apps:sdkconfig ANDROID FIREBASE_APP_ID \
+  --project PROJECT_ID \
+  --out app/google-services.json
+./gradlew assembleDebug
+```
+
+If you have not registered an Android app yet, you may register it in the Console or use the CLI **once** before `apps:list`:
+
+```bash
+firebase apps:create ANDROID "SWPP Telemetry Practice" \
+  --package-name com.example.telemetrypractice \
+  --project PROJECT_ID
+```
+
+The CLI opens a browser to sign in. `apps:list` reports the Firebase App ID (such as `1:...:android:...`), which is **different** from the package name. `apps:sdkconfig --out` writes the actual `app/google-services.json`; you do not need `firebase init` for this Android Analytics exercise. The JSON stays local and is ignored by Git. Reopen/sync the Android project and run the app. Use **DebugView**, not the status label alone, to confirm that Firebase actually received the events. [Firebase CLI reference](https://firebase.google.com/docs/cli).
 
 ## 3. Verify in Firebase DebugView
 
@@ -44,4 +71,4 @@ adb shell setprop debug.firebase.analytics.app .none.
 
 Save **`telemetry_app.png`** (counter app screen) and **`telemetry_debugview.png`** (DebugView event detail with the `button_id` parameter). Use fixed button IDs only; do not record names, emails, user-entered text, or other personal data.
 
-Firebase docs: [Android setup](https://firebase.google.com/docs/android/setup), [log events](https://firebase.google.com/docs/analytics/android/events), [DebugView](https://firebase.google.com/docs/analytics/debugview).
+Firebase docs: [Android setup](https://firebase.google.com/docs/android/setup), [Firebase CLI](https://firebase.google.com/docs/cli), [log events](https://firebase.google.com/docs/analytics/android/events), [DebugView](https://firebase.google.com/docs/analytics/debugview).
