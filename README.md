@@ -2,6 +2,8 @@
 
 **SWPP 2026 Fall · Android (Kotlin)**
 
+**Where do I get Firebase?** Open the [Firebase Console](https://console.firebase.google.com/) and sign in with your Google account. Firebase is a hosted service, so there is no separate desktop app to download. Create a Firebase project with **Google Analytics enabled**, register the Android app `com.example.telemetrypractice`, and click **Download google-services.json**. Place the file at `app/google-services.json`. The Firebase Analytics SDK is already a dependency of this starter app; installing the Firebase CLI is optional.
+
 This tiny counter app generates a custom `button_tap` event on every **Count** or **Reset** click, with a fixed `button_id` parameter. The UI also runs without Firebase so you can test the buttons before connecting your own project.
 
 ## 1. Run the app
