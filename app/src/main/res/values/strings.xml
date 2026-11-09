@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Button Telemetry</string>
+    <string name="app_heading">Button Telemetry</string>
+    <string name="app_hint">Press Count and Reset to generate events</string>
+    <string name="count_button">Count</string>
+    <string name="reset_button">Reset</string>
+    <string name="analytics_ready">Firebase Analytics connected</string>
+    <string name="analytics_missing">Add app/google-services.json to enable Analytics</string>
+</resources>
